@@ -53,19 +53,20 @@ export default function Auth() {
     setLoading(true);
     setError('');
     const email = `${username.trim()}@${selectedCampus.domain}`;
+    const demoPassword = 'demo123456';
 
-    const { error: authError } = await supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: window.location.origin },
-    });
-
-    if (authError) {
-      setError(authError.message);
-      setLoading(false);
-    } else {
-      setStep('verify');
-      setLoading(false);
+    // Try sign in first, then sign up if user doesn't exist
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password: demoPassword });
+    if (signInError) {
+      const { error: signUpError } = await supabase.auth.signUp({ email, password: demoPassword });
+      if (signUpError) {
+        setError(signUpError.message);
+        setLoading(false);
+        return;
+      }
     }
+    // Auth state listener will handle navigation
+    setLoading(false);
   };
 
   return (
