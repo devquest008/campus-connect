@@ -240,8 +240,8 @@ export default function Auth() {
                 </div>
                 {error && <p className="text-destructive text-sm">{error}</p>}
                 <Button onClick={handleLogin} disabled={loading || !username.trim()} className="w-full glow-cyan">
-                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
-                  Send Magic Link
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
+                  Sign In / Sign Up
                 </Button>
               </div>
             </motion.div>
